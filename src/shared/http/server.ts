@@ -1,7 +1,7 @@
 import 'reflect-metadata'
 import dotenv from 'dotenv'
 import path from 'path'
-import express, { Request, Response, NextFunction, response } from 'express'
+import express, { Request, Response, NextFunction } from 'express'
 import 'express-async-errors'
 import { errors } from 'celebrate'
 import cors from 'cors'
@@ -25,13 +25,15 @@ server.use(errors())
 server.use((error: Error, request: Request, res: Response, next: NextFunction) => {
 
     if (error instanceof AppError) {
-        return response.status(error.statusCode).json({
+        return res.status(error.statusCode).json({
             status: 'error',
             message: error.message,
+
+
         });
     }
 
-    return response.status(500).json({
+    return res.status(500).json({
         status: 'error',
         message: 'Internal server error'
     })
