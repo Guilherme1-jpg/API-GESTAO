@@ -6,7 +6,7 @@ export default class UserController {
     public async index(req: Request, res: Response): Promise<Response> {
         const listUser = new ListUserService();
 
-        const user = listUser.execute();
+        const user = await listUser.execute();
 
         return res.json(user)
     }
