@@ -1,11 +1,10 @@
 import { MigrationInterface, QueryRunner, Table } from "typeorm";
 
-export class CreateTickets1657904327475 implements MigrationInterface {
+export class CreateBuyer1658234611948 implements MigrationInterface {
 
     public async up(queryRunner: QueryRunner): Promise<void> {
-
         await queryRunner.createTable(new Table({
-            name: 'tickets',
+            name: 'buyer',
             columns: [
                 {
                     name: 'id',
@@ -15,23 +14,24 @@ export class CreateTickets1657904327475 implements MigrationInterface {
                     default: 'uuid_generate_v4()',
                 },
                 {
-                    name: 'price',
-                    type: 'decimal',
-                    precision: 10,
-                    scale: 2,
+                    name: 'name',
+                    type: 'varchar',
                 },
                 {
-                    name: 'quantity',
-                    type: 'int',
+                    name: 'email',
+                    type: 'varchar',
                 },
                 {
-                    name: 'payment_method',
+                    name: 'document_type',
                     type: 'varchar'
                 },
+
                 {
-                    name: 'places',
-                    type: 'int',
+                    name: 'document_serial',
+                    type: 'decimal',
+
                 },
+
                 {
                     name: 'created_at',
                     type: 'timestamp with time zone',
@@ -48,7 +48,7 @@ export class CreateTickets1657904327475 implements MigrationInterface {
     }
 
     public async down(queryRunner: QueryRunner): Promise<void> {
-        await queryRunner.dropTable('tickets');
+        await queryRunner.dropTable('buyer');
     }
 
 }
