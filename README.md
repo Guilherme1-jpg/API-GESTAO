@@ -4,6 +4,7 @@ Aplicativo criado para o gerenciamento de compra e venda de ingressos, onde a co
 
 ## tools used
 
+- Redis command line
 - VScode
 - Docker desktop
 - Dbeaver
