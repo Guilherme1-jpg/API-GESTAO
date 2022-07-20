@@ -4,7 +4,6 @@ import Ticket from '../typeorm/entities/Ticket';
 import { TicketRepository } from '../typeorm/repositories/TicketsRepository';
 
 interface IRequest {
-    id?: string;
     price: number;
     quantity: number;
     payment_method: string;
@@ -12,14 +11,8 @@ interface IRequest {
 }
 
 class CreateTicketService {
-    public async execute({ id, price, quantity, payment_method, places }: IRequest): Promise<Ticket> {
+    public async execute({ price, quantity, payment_method, places }: IRequest): Promise<Ticket> {
         const ticketsRepository = getCustomRepository(TicketRepository);
-
-        const ticketExists = await ticketsRepository.findOne(id);
-
-        if (ticketExists) {
-            throw new AppError('This ticket already exists');
-        }
 
         const ticket = ticketsRepository.create({
             price, quantity, payment_method, places
