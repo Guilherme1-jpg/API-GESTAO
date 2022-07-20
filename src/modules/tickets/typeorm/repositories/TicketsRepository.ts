@@ -1,5 +1,9 @@
-import { EntityRepository, Repository } from 'typeorm';
+import { EntityRepository, In, Repository } from 'typeorm';
 import Ticket from '../entities/Ticket';
+
+interface IFindTickets {
+    id: string;
+}
 
 @EntityRepository(Ticket)
 export class TicketRepository extends Repository<Ticket>{
@@ -13,4 +17,18 @@ export class TicketRepository extends Repository<Ticket>{
         return ticket;
     }
 
+    public async findAllByIds(tickets: IFindTickets[]): Promise<Ticket[]> {
+        const ticketsIds = tickets.map(ticket => ticket.id);
+
+        const existentTickets = await this.find({
+            where: {
+                id: In(ticketsIds),
+            },
+        });
+
+        return existentTickets;
+    }
+
 }
+
+export default TicketRepository

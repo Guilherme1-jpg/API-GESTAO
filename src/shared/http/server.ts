@@ -28,15 +28,15 @@ server.use((error: Error, request: Request, res: Response, next: NextFunction) =
         return res.status(error.statusCode).json({
             status: 'error',
             message: error.message,
-
-
         });
     }
-
+    console.log(error)
     return res.status(500).json({
         status: 'error',
         message: 'Internal server error'
     })
+
+
 })
 
 server.listen(process.env.PORT)

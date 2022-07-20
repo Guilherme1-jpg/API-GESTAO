@@ -1,9 +1,13 @@
-import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, OneToMany } from 'typeorm';
+import OrderTickets from '../../../../modules/orders/typeorm/entities/OrdersTickets';
 
 @Entity('tickets')
 class Ticket {
     @PrimaryGeneratedColumn('uuid')
     id: string;
+
+    @OneToMany(() => OrderTickets, order_tickets => order_tickets.ticket)
+    order_tickets: OrderTickets[];
 
     @Column('decimal')
     price: number;
