@@ -5,6 +5,7 @@ import express, { Request, Response, NextFunction } from 'express'
 import 'express-async-errors'
 import { errors } from 'celebrate'
 import cors from 'cors'
+import { pagination } from 'typeorm-pagination'
 import AppError from '../errors/AppError'
 import "../../shared/typeorm"
 
@@ -15,6 +16,7 @@ const server = express();
 
 server.use(cors());
 server.use(express.json());
+server.use(pagination);
 server.use(express.static(path.join(__dirname, '../public')));
 server.use(express.urlencoded({ extended: true }))
 

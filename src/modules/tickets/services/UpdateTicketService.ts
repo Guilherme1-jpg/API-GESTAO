@@ -2,7 +2,7 @@ import AppError from '../../../shared/errors/AppError';
 import { getCustomRepository } from 'typeorm';
 import Ticket from '../typeorm/entities/Ticket';
 import { TicketRepository } from '../typeorm/repositories/TicketsRepository';
-
+import RedisCache from '../../../shared/cache/RedisCache';
 
 interface IRequest {
     id: string;
@@ -27,6 +27,9 @@ class UpdateTicketService {
         if (!ticket) {
             throw new AppError('Ticket not found.');
         }
+
+        const redisCache = new RedisCache();
+        await redisCache.invalidate('api-gestao-PROD_LIST')
 
         ticket.price = price;
         ticket.quantity = quantity;
