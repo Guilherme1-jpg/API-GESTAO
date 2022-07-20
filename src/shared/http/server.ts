@@ -8,6 +8,7 @@ import cors from 'cors'
 import { pagination } from 'typeorm-pagination'
 import AppError from '../errors/AppError'
 import "../../shared/typeorm"
+import rateLimiter from './middlewares/rateLimiter'
 
 import routes from '../routes'
 
@@ -16,6 +17,7 @@ const server = express();
 
 server.use(cors());
 server.use(express.json());
+server.use(rateLimiter)
 server.use(pagination);
 server.use(express.static(path.join(__dirname, '../public')));
 server.use(express.urlencoded({ extended: true }))
