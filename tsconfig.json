@@ -38,5 +38,5 @@
   ],
   "include": [
     "src/**/*"
-  ]
+, "jest.config.ts"  ]
 }

@@ -16,6 +16,7 @@ Aplicativo criado para o gerenciamento de compra e venda de ingressos, onde a co
 - Postgres running on local instance or Docker
 - Install dependencies - `npm install`
 - Run project - `npm run start-dev`
+- Docker running docker-compose up
 
 ## libraries used
 

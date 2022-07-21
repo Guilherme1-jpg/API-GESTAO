@@ -1,7 +1,8 @@
 import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
+import { IBuyer } from '../../../../modules/buyer/domain/models/IBuyer';
 
 @Entity('buyer')
-class Buyer {
+class Buyer implements IBuyer {
     @PrimaryGeneratedColumn('uuid')
     id: string;
 

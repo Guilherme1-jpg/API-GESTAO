@@ -3,7 +3,7 @@ import { Router } from "express";
 import ticketsRouter from "../../modules/tickets/routes/tickets.routes";
 import userRouter from "../../modules/users/routes/user.routes";
 import profileRouter from "../../modules/users/routes/profile.routes";
-import buyerRouter from "../../modules/buyer/routes/buyer.routes";
+import buyerRouter from "../../modules/buyer/infra/http/routes/buyer.routes";
 import eventRouter from "../../modules/eventceremony/routes/eventCeremony.routes";
 import ordersRouter from "../../modules/orders/routes/order.routes";
 

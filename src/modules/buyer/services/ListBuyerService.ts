@@ -1,26 +1,28 @@
-import { getCustomRepository } from 'typeorm';
-import Buyer from '../typeorm/entities/Buyer';
-import BuyerRepository from '../typeorm/repositories/BuyerRepository';
+import { inject, injectable } from 'tsyringe'
+import { IPaginateBuyer } from '../domain/models/IPaginateBuyer';
+import { IBuyerRepository } from '../domain/repositories/IBuyerRepository';
 
-interface IPaginate {
-    from: number;
-    to: number;
-    per_page: number;
-    total: number;
-    current_page: number;
-    prev_page: number | null;
-    next_page: number | null;
-    data: Buyer[];
+interface Search {
+    page: number;
+    limit: number;
 }
 
+@injectable()
 class ListBuyerService {
-    public async execute(): Promise<IPaginate> {
 
-        const buyerRepository = getCustomRepository(BuyerRepository);
+    constructor(@inject('BuyerRepository') private buyerRepository: IBuyerRepository) { }
 
-        const buyer = await buyerRepository.createQueryBuilder().paginate();
+    public async execute({ page, limit }: Search): Promise<IPaginateBuyer> {
 
-        return buyer as IPaginate;
+        const take = limit;
+        const skip = (Number(page) - 1) * take;
+
+        const buyer = await this.buyerRepository.findAll({
+            page, skip, take
+        })
+
+        return buyer;
+
     }
 }
 

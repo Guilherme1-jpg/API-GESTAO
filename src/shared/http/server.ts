@@ -8,7 +8,8 @@ import cors from 'cors'
 import { pagination } from 'typeorm-pagination'
 import AppError from '../errors/AppError'
 import "../../shared/typeorm"
-import rateLimiter from './middlewares/rateLimiter'
+import "../container"
+import rateLimiter from './middlewares/rateLimiter';
 
 import routes from '../routes'
 

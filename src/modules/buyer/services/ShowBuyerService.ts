@@ -2,17 +2,19 @@ import AppError from '../../../shared/errors/AppError';
 import { getCustomRepository } from 'typeorm';
 import Buyer from '../typeorm/entities/Buyer';
 import BuyerRepository from '../typeorm/repositories/BuyerRepository';
+import { injectable, inject } from 'tsyringe';
+import { IShowBuyer } from '../domain/models/IShowBuyer';
+import { IBuyerRepository } from '../domain/repositories/IBuyerRepository';
 
-interface IRequest {
-    id: string;
-}
 
+
+@injectable()
 class ShowBuyerService {
-    public async execute({ id }: IRequest): Promise<Buyer> {
+    constructor(@inject('BuyerRepository') private buyerRepository: IBuyerRepository) { }
 
-        const buyerRepository = getCustomRepository(BuyerRepository);
+    public async execute({ id }: IShowBuyer): Promise<Buyer> {
 
-        const buyer = await buyerRepository.findById(id);
+        const buyer = await this.buyerRepository.findById(id);
 
         if (!buyer) {
             throw new AppError('User not found')

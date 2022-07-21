@@ -1,30 +1,25 @@
 import AppError from '../../../shared/errors/AppError'
-import { getCustomRepository } from 'typeorm';
-import Buyer from '../typeorm/entities/Buyer';
-import BuyerRepository from '../typeorm/repositories/BuyerRepository';
+import { IBuyerRepository } from '../domain/repositories/IBuyerRepository';
+import { ICreateBuyer } from '../domain/models/ICreateBuyer';
+import { IBuyer } from '../domain/models/IBuyer';
+import { inject, injectable } from 'tsyringe';
 
-
-interface IRequest {
-    name: string;
-    email: string;
-    document_type: string;
-    document_serial: number;
-}
-
+@injectable()
 class CreateBuyerService {
-    public async execute({ name, email, document_type, document_serial }: IRequest): Promise<Buyer> {
-        const buyerRepository = getCustomRepository(BuyerRepository);
-        const emailVerify = await buyerRepository.findByEmail(email);
+
+    constructor(@inject('BuyerRepository') private buyerRepository: IBuyerRepository) { }
+
+    public async execute({ name, email, document_type, document_serial }: ICreateBuyer): Promise<IBuyer> {
+
+        const emailVerify = await this.buyerRepository.findByEmail(email);
 
         if (emailVerify) {
             throw new AppError("Sorry, email already used")
         }
 
-        const buyer = buyerRepository.create({
+        const buyer = await this.buyerRepository.create({
             name, email, document_type, document_serial
         });
-
-        await buyerRepository.save(buyer);
 
         return buyer;
     }

@@ -3,32 +3,29 @@ import { compare, hash } from 'bcryptjs';
 import { getCustomRepository } from 'typeorm';
 import Buyer from '../typeorm/entities/Buyer';
 import BuyerRepository from '../typeorm/repositories/BuyerRepository';
+import { injectable, inject } from 'tsyringe';
+import { IBuyerRepository } from '../domain/repositories/IBuyerRepository';
+import { IUpdateBuyer } from '../domain/models/IUpdate';
 
-interface IRequest {
-    id: string;
-    name: string;
-    email: string;
-    document_type: string;
-    document_serial: number;
-}
-
+@injectable()
 class UpdateBuyerService {
+    constructor(@inject('BuyerRepository') private buyerRepository: IBuyerRepository) { }
+
     public async execute({
         id,
         name,
         email,
         document_type,
         document_serial,
-    }: IRequest): Promise<Buyer> {
-        const buyerRepository = getCustomRepository(BuyerRepository);
+    }: IUpdateBuyer): Promise<Buyer> {
 
-        const buyer = await buyerRepository.findById(id);
+        const buyer = await this.buyerRepository.findById(id);
 
         if (!buyer) {
             throw new AppError('User not found.');
         }
 
-        const buyerVerify = await buyerRepository.findByEmail(email);
+        const buyerVerify = await this.buyerRepository.findByEmail(email);
 
         if (buyerVerify && email != buyer.email) {
             throw new AppError('There is already one buyer with this email');
@@ -40,7 +37,7 @@ class UpdateBuyerService {
         buyer.document_serial = document_serial;
 
 
-        await buyerRepository.save(buyer);
+        await this.buyerRepository.save(buyer);
 
         return buyer;
     }
