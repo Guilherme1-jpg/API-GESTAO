@@ -1,4 +1,4 @@
-# Event management MBlabs
+# Event management
 
 Aplicativo criado para o gerenciamento de compra e venda de ingressos, onde a compra do cliente é a nossa importancia.
 
